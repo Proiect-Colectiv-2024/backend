@@ -1,4 +1,4 @@
-package com.rippleeffect.backend;
+package src.test.java.com.rippleeffect.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

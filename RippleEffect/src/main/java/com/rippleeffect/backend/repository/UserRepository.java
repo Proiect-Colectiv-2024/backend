@@ -1,5 +1,6 @@
-package com.rippleeffect.backend.repository;
+package src.main.java.com.rippleeffect.backend.repository;
 
+import src.main.java.com.rippleeffect.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,7 @@
-package com.rippleeffect.backend.service;
+package src.main.java.com.rippleeffect.backend.service;
 
+import src.main.java.com.rippleeffect.backend.model.User;
+import src.main.java.com.rippleeffect.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

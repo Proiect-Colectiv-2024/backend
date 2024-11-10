@@ -1,7 +1,7 @@
-package com.rippleeffect.backend.controller;
+package src.main.java.com.rippleeffect.backend.controller;
 
-import com.rippleeffect.backend.model.User;
-import com.rippleeffect.backend.service.UserService;
+import src.main.java.com.rippleeffect.backend.model.User;
+import src.main.java.com.rippleeffect.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

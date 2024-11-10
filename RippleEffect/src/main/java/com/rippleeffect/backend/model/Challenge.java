@@ -1,4 +1,4 @@
-package com.rippleeffect.backend.model;
+package src.main.java.com.rippleeffect.backend.model;
 
 import jakarta.persistence.*;
 

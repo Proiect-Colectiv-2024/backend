@@ -1,5 +1,7 @@
-package com.rippleeffect.backend.controller;
+package src.main.java.com.rippleeffect.backend.controller;
 
+import src.main.java.com.rippleeffect.backend.model.Challenge;
+import src.main.java.com.rippleeffect.backend.service.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +49,24 @@ public class ChallengeController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<Challenge> completeChallenge(@PathVariable Long id) {
+        Challenge completedChallenge = challengeService.markChallengeAsCompleted(id);
+        if (completedChallenge != null) {
+            return ResponseEntity.ok(completedChallenge);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Get or create a challenge based on user ID and challenge type (daily/weekly)
+    @GetMapping("/user/{userId}/type/{type}")
+    public ResponseEntity<Challenge> getOrCreateChallenge(
+            @PathVariable Long userId,
+            @PathVariable String type) {
+        Challenge challenge = challengeService.getOrCreateChallenge(userId, type);
+        return ResponseEntity.ok(challenge);
     }
 }
