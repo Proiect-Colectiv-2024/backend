@@ -21,13 +21,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.saveUser(user);
+        User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(id).orElse(null);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -43,7 +43,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
+        User updatedUser = userService.updateUser(userDetails);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {

@@ -1,5 +1,7 @@
 package com.rippleeffect.backend.service;
 
+import com.rippleeffect.backend.model.Challenge;
+import com.rippleeffect.backend.repository.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
