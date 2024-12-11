@@ -33,6 +33,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        try {
+            User user = userService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @PostMapping("/{userId}/challenges/{challengeId}/complete")
     public ResponseEntity<String> completeUserChallenge(@PathVariable Integer userId, @PathVariable Integer challengeId) {
         boolean isUpdated = userService.completeChallengeForUser(userId, challengeId);

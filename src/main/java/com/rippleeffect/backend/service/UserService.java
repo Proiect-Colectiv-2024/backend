@@ -59,4 +59,11 @@ public class UserService {
 
         return false; // Challenge already completed or missed
     }
+
+    public User getUserByUsername(String username) {
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + username));
+    }
 }
