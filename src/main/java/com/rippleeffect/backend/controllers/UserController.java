@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/challenges/{challengeId}/complete")
+    @PostMapping("/id/{userId}/challenges/{challengeId}/complete")
     public ResponseEntity<String> completeUserChallenge(@PathVariable Integer userId, @PathVariable Integer challengeId) {
         boolean isUpdated = userService.completeChallengeForUser(userId, challengeId);
         if (isUpdated) {
@@ -53,7 +53,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/challenges/{challengeId}/miss")
+    @PostMapping("/id/{userId}/challenges/{challengeId}/miss")
     public ResponseEntity<String> missUserChallenge(@PathVariable Integer userId, @PathVariable Integer challengeId) {
         boolean isUpdated = userService.missChallengeForUser(userId, challengeId);
         if (isUpdated) {

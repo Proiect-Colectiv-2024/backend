@@ -9,12 +9,13 @@ public class User {
     private String email;
     private String picture;
     private int level;
-    private List<String> completedChallenges;
-    private List<String> missedChallenges;
+    private List<Challenge> completedChallenges;
+    private List<Challenge> missedChallenges;
+    private List<Challenge> inProgressChallenges;
 
     public User(){}
 
-    public User(Integer id, String username, String email, String picture, int level, List<String> completedChallenges, List<String> missedChallenges) {
+    public User(Integer id, String username, String email, String picture, int level, List<Challenge> completedChallenges, List<Challenge> missedChallenges, List<Challenge> inProgressChallenges) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -22,7 +23,9 @@ public class User {
         this.level = level;
         this.completedChallenges = completedChallenges;
         this.missedChallenges = missedChallenges;
+        this.inProgressChallenges = inProgressChallenges;
     }
+
 
     public Integer getId() {
         return id;
@@ -64,20 +67,28 @@ public class User {
         this.level = level;
     }
 
-    public List<String> getCompletedChallenges() {
+    public List<Challenge> getCompletedChallenges() {
         return completedChallenges;
     }
 
-    public void setCompletedChallenges(List<String> completedChallenges) {
+    public void setCompletedChallenges(List<Challenge> completedChallenges) {
         this.completedChallenges = completedChallenges;
     }
 
-    public List<String> getMissedChallenges() {
+    public List<Challenge> getMissedChallenges() {
         return missedChallenges;
     }
 
-    public void setMissedChallenges(List<String> missedChallenges) {
+    public void setMissedChallenges(List<Challenge> missedChallenges) {
         this.missedChallenges = missedChallenges;
+    }
+
+    public List<Challenge> getInProgressChallenges() {
+        return inProgressChallenges;
+    }
+
+    public void setInProgressChallenges(List<Challenge> inProgressChallenges) {
+        this.inProgressChallenges = inProgressChallenges;
     }
 
     @Override
@@ -92,21 +103,4 @@ public class User {
                 ", missedChallenges=" + missedChallenges +
                 '}';
     }
-
-    Collectors Collectors = null;
-
-    // Extract the integer IDs from completed challenge URLs
-    public List<Integer> extractCompletedChallengeIds() {
-        return completedChallenges.stream()
-                .map(url -> Integer.parseInt(url.substring(url.lastIndexOf("/") + 1)))
-                .collect(Collectors.toList());
-    }
-
-    // Extract the integer IDs from missed challenge URLs
-    public List<Integer> extractMissedChallengeIds() {
-        return missedChallenges.stream()
-                .map(url -> Integer.parseInt(url.substring(url.lastIndexOf("/") + 1)))
-                .collect(Collectors.toList());
-    }
-
 }
