@@ -23,7 +23,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         try {
             User user = userService.getUserById(id);
@@ -33,7 +33,17 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/challenges/{challengeId}/complete")
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        try {
+            User user = userService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/id/{userId}/challenges/{challengeId}/complete")
     public ResponseEntity<String> completeUserChallenge(@PathVariable Integer userId, @PathVariable Integer challengeId) {
         boolean isUpdated = userService.completeChallengeForUser(userId, challengeId);
         if (isUpdated) {
@@ -43,7 +53,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/{userId}/challenges/{challengeId}/miss")
+    @PostMapping("/id/{userId}/challenges/{challengeId}/miss")
     public ResponseEntity<String> missUserChallenge(@PathVariable Integer userId, @PathVariable Integer challengeId) {
         boolean isUpdated = userService.missChallengeForUser(userId, challengeId);
         if (isUpdated) {

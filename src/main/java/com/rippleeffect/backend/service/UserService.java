@@ -1,5 +1,6 @@
 package com.rippleeffect.backend.service;
 
+import com.rippleeffect.backend.models.Challenge;
 import com.rippleeffect.backend.models.User;
 import com.rippleeffect.backend.utils.JsonFileReader;
 import org.springframework.stereotype.Service;
@@ -32,31 +33,55 @@ public class UserService {
     public boolean completeChallengeForUser(Integer userId, Integer challengeId) {
         User user = getUserById(userId);
 
-        if (!user.getMissedChallenges().contains(challengeId) &&
-                !user.getCompletedChallenges().contains(challengeId)) {
-            user.getCompletedChallenges().add("http://localhost:8081/challenges/" + challengeId);
-            user.getMissedChallenges().remove("http://localhost:8081/challenges/" + challengeId);
-            // Write the updated users back to the JSON file
-            jsonFileReader.writeUsersToFile(FILE_PATH, users);
-            return true;
+        // Find the challenge in inProgressChallenges
+        Challenge challengeToComplete = user.getInProgressChallenges().stream()
+                .filter(challenge -> challenge.getId().equals(challengeId))
+                .findFirst()
+                .orElse(null);
+
+        if (challengeToComplete == null) {
+            return false; // Challenge not found in inProgressChallenges
         }
 
-        return false; // Challenge already completed or missed
+        // Update challenge status and move to completedChallenges
+        challengeToComplete.setStatus("completed");
+        user.getInProgressChallenges().remove(challengeToComplete);
+        user.getCompletedChallenges().add(challengeToComplete);
+
+        // Write the updated user back to the JSON file
+        jsonFileReader.writeUsersToFile(FILE_PATH, users);
+        return true;
     }
+
 
     public boolean missChallengeForUser(Integer userId, Integer challengeId) {
         User user = getUserById(userId);
 
-        if (!user.getMissedChallenges().contains(challengeId) &&
-                !user.getCompletedChallenges().contains(challengeId)) {
-            user.getMissedChallenges().add("http://localhost:8081/challenges/" + challengeId);
-            user.getCompletedChallenges().remove("http://localhost:8081/challenges/" + challengeId);
+        // Find the challenge in inProgressChallenges
+        Challenge challengeToMiss = user.getInProgressChallenges().stream()
+                .filter(challenge -> challenge.getId().equals(challengeId))
+                .findFirst()
+                .orElse(null);
 
-            // Write the updated users back to the JSON file
-            jsonFileReader.writeUsersToFile(FILE_PATH, users);
-            return true;
+        if (challengeToMiss == null) {
+            return false; // Challenge not found in inProgressChallenges
         }
 
-        return false; // Challenge already completed or missed
+        // Update challenge status and move to missedChallenges
+        challengeToMiss.setStatus("missed");
+        user.getInProgressChallenges().remove(challengeToMiss);
+        user.getMissedChallenges().add(challengeToMiss);
+
+        // Write the updated user back to the JSON file
+        jsonFileReader.writeUsersToFile(FILE_PATH, users);
+        return true;
+    }
+
+
+    public User getUserByUsername(String username) {
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + username));
     }
 }
