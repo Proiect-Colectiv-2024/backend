@@ -17,7 +17,7 @@ public class JsonFileReader {
     private final ObjectMapper objectMapper = new ObjectMapper();
     @Value("${challenges.file.path}")
     private String challengesFilePath;
-    @Value("data/users.json")
+    @Value("${users.file.path}")
     private String usersFilePath;
 
     public List<Challenge> readChallengesFromFile() {
