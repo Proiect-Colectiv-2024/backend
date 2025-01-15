@@ -2,6 +2,7 @@ package com.rippleeffect.backend.utils;
 
 import com.rippleeffect.backend.models.Challenge;
 import com.rippleeffect.backend.models.User;
+import com.rippleeffect.backend.models.Post;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,8 @@ public class JsonFileReader {
     private String challengesFilePath;
     @Value("${users.file.path}")
     private String usersFilePath;
+    @Value("${posts.file.path}")
+    private String postsFilePath;
 
     public List<Challenge> readChallengesFromFile() {
         try {
@@ -36,6 +39,14 @@ public class JsonFileReader {
         }
     }
 
+    public List<Post> readPostsFromFile() {
+        try {
+            return objectMapper.readValue(new File(postsFilePath), new TypeReference<List<Post>>() {});
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read posts file: " + postsFilePath, e);
+        }
+    }
+
     public void writeChallengesToFile(String challengesFilePath, List<Challenge> challenges) {
         try {
             File file = new File(challengesFilePath);
@@ -50,6 +61,15 @@ public class JsonFileReader {
             objectMapper.writeValue(file, users);
         } catch (IOException e) {
             throw new RuntimeException("Failed to write users to file: " + usersFilePath, e);
+        }
+    }
+
+    public void writePostsToFile(String postsFilePath, List<Post> posts) {
+        try {
+            File file = new File(postsFilePath);
+            objectMapper.writeValue(file, posts);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write posts to file: " + postsFilePath, e);
         }
     }
 
